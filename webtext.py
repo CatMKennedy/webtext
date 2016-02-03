@@ -84,7 +84,6 @@ def add_entry():
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
 	return render_template('search.html')
-
 	
 @app.route('/login', methods=['GET', 'POST'])
 def login():
