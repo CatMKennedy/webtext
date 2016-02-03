@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><h2>Title: {{ entry.title }};
+    	Author: {{ entry.author }}</h2>
+    	File ID: {{ entry.fileID }}; 
+    	URL: {{ entry.url }}
+  {% else %}
+    <li><em>No entries.</em>
+  {% endfor %}
+  </ul> 
+  {% endif %}
+{% endblock %}
+
