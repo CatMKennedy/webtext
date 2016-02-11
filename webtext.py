@@ -23,10 +23,14 @@ def init_db():
         with app.open_resource('schema.sql', mode='r') as f:
             db.cursor().executescript(f.read())  
 
-        db.execute('insert into entries (title, author, fileID, url) values (?, ?, ?, ?)',
-            ['Emma', 'Jane Austen', 'austen-emma.txt', 'NO URL'])
-        db.execute('insert into entries (title, author, fileID, url) values (?, ?, ?, ?)',
-            ['Moby Dick', 'Herman Melville', 'melville-moby_dick.txt', 'NO URL'])
+        db.execute('insert into entries (title, author, genre, corpusID, fileID, url) values (?, ?, ?, ?, ?, ?)',
+            ['Emma', 'Jane Austen', 'classics', 'Gutenberg', 'austen-emma.txt', 'none'])
+        db.execute('insert into entries (title, author, genre, corpusID, fileID, url) values (?, ?, ?, ?, ? ,?)',
+            ['Moby Dick', 'Herman Melville', 'classics', 'Gutenberg', 'melville-moby_dick.txt', 'none'])
+        db.execute('insert into entries (title, author, genre, corpusID, fileID, url) values (?, ?, ?, ?, ? ,?)',
+            ['The Man Who Was Thursday', 'G. K. Chesterton', 'classics', 'Gutenberg', 'chesterton-thursday.txt', 'none'])           
+        db.execute('insert into entries (title, author, genre, corpusID, fileID, url) values (?, ?, ?, ?, ?, ?)',
+            ['Hamlet', 'William Shakespeare', 'classics', 'Gutenberg', 'shakespeare-hamlet.txt', 'none'])       
         db.commit()
         
 
@@ -52,8 +56,9 @@ def start_page():
 
 @app.route('/list_all')
 def show_entries():
-    cur = g.db.execute('select title, author, fileID, url from entries order by id desc')  #execute sql statement
-    entries = [dict(title=row[0], author=row[1], fileID=row[2], url=row[3]) for row in cur.fetchall()]
+    cur = g.db.execute('select * from entries order by id desc')  #execute sql statement
+    entries = [dict(title=row[1], author=row[2], genre=row[3], corpusID=row[4], fileID=row[5], url=row[6]) 
+    				for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
 
@@ -63,7 +68,8 @@ def database_query():
         abort(401)
     cur = g.db.execute('select * from entries where title = ?',
                  [request.form['title']])    #request.form['author']])
-    entries = [dict(title=row[1], author=row[2], fileID=row[3], url=row[4]) for row in cur.fetchall()]
+    entries = [dict(title=row[1], author=row[2], genre=row[3], corpusID=row[4], fileID=row[5], url=row[6]) 
+    				for row in cur.fetchall()]
     
     flash('Query results')
     return render_template('show_entries.html', entries=entries)
@@ -73,8 +79,9 @@ def database_query():
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('insert into entries (title, author, fileID, url) values (?, ?, ?, ?)',
-                 [request.form['title'], request.form['author'], request.form['fileID'], request.form['url']])
+    g.db.execute('insert into entries (title, author, genre, corpusID, fileID, url) values (?, ?, ?, ?, ?, ?)',
+                 [request.form['title'], request.form['author'], request.form['genre'], 
+                 request.form['corpusID'], request.form['fileID'], request.form['url']])
     g.db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
