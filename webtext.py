@@ -87,7 +87,13 @@ def add_entry():
     g.db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
-    
+
+
+
+@app.route('/analyse_text')
+def analyse_text():
+	return render_template('analyse.html')
+       
 
 #Site search - not yet implemented		
 @app.route('/search', methods=['GET', 'POST'])
