@@ -5,7 +5,8 @@
   <h1>Web Text</h1>
   <p>Simple analysis of classic texts</p>
   <div class=metanav>
-  <a href="{{ url_for('start_page') }}">Home</a> | <a href="{{ url_for('search_page') }}">Site search</a> | 
+  <a href="{{ url_for('start_page') }}">Home</a> | <a href="{{ url_for('start_page') }}">Query database</a> |
+  <a href="{{ url_for('analyse_text') }}">Analyse text</a> | <a href="{{ url_for('search_page') }}">Site search</a> | 
   {% if not session.logged_in %}
     <a href="{{ url_for('login') }}">log in</a>
   {% else %}

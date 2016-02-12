@@ -11,7 +11,7 @@ SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
 
-# create our little application :)
+# create the app
 app = Flask(__name__)      #Flask application object
 app.config.from_object(__name__)
 
@@ -44,6 +44,8 @@ def teardown_request(exception):
     db = getattr(g, 'db', None)
     if db is not None:
         db.close()
+        
+# App functions
 
 #Views - each of these have a URL given by app.route
 
