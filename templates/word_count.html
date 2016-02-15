@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <h2>This should be the word count results page</h2>
+  {% else %}
+    <h2>Site search - not logged in</h2>
+  {% endif %}
+{% endblock %}
+

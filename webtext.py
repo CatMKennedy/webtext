@@ -93,7 +93,10 @@ def add_entry():
 @app.route('/analyse_text')
 def analyse_text():
 	return render_template('analyse.html')
-       
+
+@app.route('/count_words', methods=['POST'])
+def count_words():
+	return render_template('word_count.html')      
 
 #Site search - not yet implemented		
 @app.route('/search', methods=['GET', 'POST'])
