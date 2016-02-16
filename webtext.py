@@ -47,6 +47,13 @@ def teardown_request(exception):
         
 # App functions
 
+# Dummy function currently - create a new field in each entry and set to 0
+def addWordCount(entries):
+    for entry in entries:
+        entry["wordcount"] = 0
+
+		
+
 #Views - each of these have a URL given by app.route
 
 @app.route('/', methods=['GET', 'POST'])
@@ -89,14 +96,31 @@ def add_entry():
     return redirect(url_for('show_entries'))
 
 
-
+#Responds to selection of "analyse text" from the "options" page
 @app.route('/analyse_text')
 def analyse_text():
 	return render_template('analyse.html')
 
+#Responds to form input from "analyse.html"
 @app.route('/count_words', methods=['POST'])
 def count_words():
-	return render_template('word_count.html')      
+	#TO DO: repeated code - same as in database_query - need a utility for this.
+	if not session.get('logged_in'):
+		abort(401)
+	cur = g.db.execute('select * from entries where title = ?',[request.form['title']])    #request.form['author']])
+	entries = [dict(title=row[1], author=row[2], genre=row[3], corpusID=row[4], fileID=row[5], url=row[6]) 
+					for row in cur.fetchall()] 
+	#end - repeated code
+   
+   #Dummy code - just put 0 in the wordcount for now
+	for entry in entries:
+		entry["wordcount"] = 0
+		#print("entry[title] = ", entry["title"], "entry[wordcount] = ", entry["wordcount"])
+	
+	#Show entries with word counts
+	flash('Text analysis results')
+	return render_template('show_wordcount_entries.html', entries=entries)
+   
 
 #Site search - not yet implemented		
 @app.route('/search', methods=['GET', 'POST'])
