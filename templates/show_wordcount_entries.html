@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
   {% if session.logged_in %}
+  Occurrences of word '{{ userWord }}':
   <ul class=entries>
   {% for entry in entries %}
     <li><h2>Title: {{ entry.title }}|
