@@ -16,7 +16,7 @@ SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
 
-# create the app
+# create the app 
 app = Flask(__name__)      #Flask application object
 app.config.from_object(__name__)
 
@@ -64,7 +64,7 @@ def addWordCount(entries, userWord):
 		else:
 			entry["wordcount"] = 0
 			
-
+#Just a temporary way to access database - needs improving
 def queryDB(titleStr, authorStr):	
 	if not session.get('logged_in'):
 		abort(401)
@@ -82,6 +82,7 @@ def start_page():
 		return render_template('options.html')
 	else:
 		return render_template('login.html')
+
 
 @app.route('/list_all')
 def show_entries():
@@ -115,22 +116,23 @@ def add_entry():
 def analyse_text():
 	return render_template('analyse.html')
 
+
 #Responds to form input from "analyse.html"
 @app.route('/count_words', methods=['POST'])
 def count_words():
-	entries = queryDB(request.form['title'], request.form['author'])
-	
-	addWordCount(entries, request.form["word"])
-   	
+	entries = queryDB(request.form['title'], request.form['author'])	
+	addWordCount(entries, request.form["word"])  
+	 	
 	#Show entries with word counts
 	flash('Text analysis results ')
 	return render_template('show_wordcount_entries.html', entries=entries, userWord=request.form["word"])
    
-
+   
 #Site search - not yet implemented		
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
 	return render_template('search.html')
+
 	
 @app.route('/login', methods=['GET', 'POST'])
 def login():
