@@ -8,15 +8,16 @@ Later versions will explore patterns for larger applications.
 
 To run the app (Unix/Linux command line):
 
-1. Initialise the database:
+1. Initialise the database (from "webtext" directory):
 
-$webtext> python3
->> from webtext import init_db
->> init_db()
+In python interpreter:
+from webtext import init_db
+init_db()
+
 
 2. Start the application:
 
 $webtext> python3 webtext.py
 
 
-3. Point browser to:http://127.0.0.1:5000/
+3. Point browser to: http://127.0.0.1:5000/
