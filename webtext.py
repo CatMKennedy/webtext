@@ -55,33 +55,32 @@ def teardown_request(exception):
 #For each entry, find the full text if available and count the occurrences of "user word",
 #then add a new field to the entry called "word count" (set to 0 if word count could not be found)
 def addWordCount(entries, userWord):
-	for entry in entries:
-		if entry["corpusID"] == "Gutenberg":
-			fileID = entry["fileID"]
-			textWords = nltk.Text(nltk.corpus.gutenberg.words(fileID))
-			resultString = "occurrences [\'" + userWord + "\'] = " + str(textWords.count(userWord))
-			entry["wordcount"] = resultString
-		else:
-			entry["wordcount"] = 0
+    for entry in entries:
+        if entry["corpusID"] == "Gutenberg":
+            fileID = entry["fileID"]
+            textWords = nltk.Text(nltk.corpus.gutenberg.words(fileID))
+            resultString = "occurrences [\'" + userWord + "\'] = " + str(textWords.count(userWord))
+            entry["wordcount"] = resultString
+        else:
+            entry["wordcount"] = 0
 			
 #Just a temporary way to access database - needs improving
 def queryDB(titleStr, authorStr):	
-	if not session.get('logged_in'):
-		abort(401)
-	cur = g.db.execute('select * from entries where title = ? or author = ?',[titleStr, authorStr])    #request.form['author']])
-	entries = [dict(title=row[1], author=row[2], genre=row[3], corpusID=row[4], fileID=row[5], url=row[6]) 
-					for row in cur.fetchall()] 
-	return entries
+    if not session.get('logged_in'):
+        abort(401)
+    cur = g.db.execute('select * from entries where title = ? or author = ?',[titleStr, authorStr])    #request.form['author']])
+    entries = [dict(title=row[1], author=row[2], genre=row[3], corpusID=row[4], fileID=row[5], url=row[6]) for row in cur.fetchall()] 
+    return entries
 
 
 #Views - each of these have a URL given by app.route
 
 @app.route('/', methods=['GET', 'POST'])
 def start_page():
-	if session.get('logged_in'):
-		return render_template('options.html')
-	else:
-		return render_template('login.html')
+    if session.get('logged_in'):
+        return render_template('options.html')
+    else:
+        return render_template('login.html')
 
 
 @app.route('/list_all')
