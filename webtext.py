@@ -119,18 +119,18 @@ def analyse_text():
 #Responds to form input from "analyse.html"
 @app.route('/count_words', methods=['POST'])
 def count_words():
-	entries = queryDB(request.form['title'], request.form['author'])	
-	addWordCount(entries, request.form["word"])  
+    entries = queryDB(request.form['title'], request.form['author'])	
+    addWordCount(entries, request.form["word"])  
 	 	
-	#Show entries with word counts
-	flash('Text analysis results ')
-	return render_template('show_wordcount_entries.html', entries=entries, userWord=request.form["word"])
+    #Show entries with word counts
+    flash('Text analysis results ')
+    return render_template('show_wordcount_entries.html', entries=entries, userWord=request.form["word"])
    
    
 #Site search - not yet implemented		
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
-	return render_template('search.html')
+    return render_template('search.html')
 
 	
 @app.route('/login', methods=['GET', 'POST'])
