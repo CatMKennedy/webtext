@@ -114,7 +114,7 @@ def add_entry():
 #Responds to selection of "analyse text" from the "options" page
 @app.route('/analyse_text')
 def analyse_text():
-	return render_template('analyse.html')
+    return render_template('analyse.html')
 
 
 #Responds to form input from "analyse.html"
