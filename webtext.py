@@ -39,7 +39,7 @@ def init_db():
         db.commit()
         
 
-#before, after and teardown are executed for each request - use object "g" which stores current request
+# Before, after and teardown are executed for each request - use object "g" which stores current request
 @app.before_request
 def before_request():
     g.db = connect_db()
