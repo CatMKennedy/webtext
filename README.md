@@ -3,7 +3,9 @@ This project explores the Python web framework Flask for simple text analysis. T
 - add or query texts in a literature database (currently just classics, mostly from the Gutenberg project) 
 - do text analysis on the full-text (if available) of selected entries. Currently it only does word-counts.
 
-The app has been built quickly using the Flask quickstart tutorial at: http://flask.readthedocs.org/en/0.3.1/. 
+Directory contents: 
+appfiles/ - includes application code + static and templates subfolders.
+tests/
 
 To run the app (Unix/Linux command line):
 
