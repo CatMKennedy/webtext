@@ -7,7 +7,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'appfiles.sqlite'),
+        DATABASE="webtext.db"
+        #DATABASE=os.path.join(app.instance_path, 'appfiles.sqlite'),
     )
 
     if test_config is None:
@@ -27,5 +28,20 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
+    
+    # Import and call the init-app function defined in db.py
+    from . import db
+    db.init_app(app)
+
+    # Register authentication blueprint - for login, registration etc.
+    from . import auth
+    app.register_blueprint(auth.bp)
+
+    # Register options blueprint
+    from . import options
+    app.register_blueprint(options.bp)
+    app.add_url_rule('/', endpoint='index')
+
 
     return app

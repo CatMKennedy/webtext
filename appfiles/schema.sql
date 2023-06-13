@@ -1,4 +1,12 @@
+drop table if exists user;
 drop table if exists entries;
+
+create table user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+
 create table entries (
   id integer  primary key autoincrement,
   title text not null,
