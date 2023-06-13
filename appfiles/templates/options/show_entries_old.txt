@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block body %}
+{% extends "layout.html" %} {% block body %} {% if session.logged_in %}
 <ul class="entries">
   {% for entry in entries %}
   <li>
@@ -16,4 +16,4 @@
   </li>
 </ul>
 
-{% endblock %}
+{% endif %} {% endblock %}

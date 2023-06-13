@@ -1,23 +1,19 @@
-{% extends "layout.html" %}
-{% block body %}
-  {% if  session.logged_in %}
-  
-    <form action="{{ url_for('count_words') }}" method=post class=count> 
-    <dl> 
-      <dt>Choose a word:
-      <dd><input type="text" size=30 name=word><br><br>
-      <dt>Choose text(s):
-        <dt>Title:
-        <dd><input type=text size=30 name=title>
-        <dt>Author:
-        <dd><input type=text size=30 name=author>
-        <dt>Genre:
-        <dd><input type=text size=30 name=author>
-        <dd><input type=submit value=submit>
-    </dl>
-    </form>
-  {% else %}
-    <h2>Analyse text - not logged in</h2>
-  {% endif %}
-{% endblock %}
+{% extends "layout.html" %} {% block body %} {% if session["user_id"] %}
 
+<form action="{{ url_for('options.count_words') }}" method="post" class="count">
+  <dl>
+    <dt>Choose a word:</dt>
+    <dd><input type="text" size="30" name="word" /><br /><br /></dd>
+    <dt>Choose text(s):</dt>
+    <dt>Title:</dt>
+    <dd><input type="text" size="30" name="title" /></dd>
+    <dt>Author:</dt>
+    <dd><input type="text" size="30" name="author" /></dd>
+    <dt>Genre:</dt>
+    <dd><input type="text" size="30" name="author" /></dd>
+    <dd><input type="submit" value="submit" /></dd>
+  </dl>
+</form>
+{% else %}
+<h2>Analyse text - not logged in</h2>
+{% endif %} {% endblock %}

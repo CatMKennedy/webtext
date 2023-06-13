@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %}
+    <form action="{{ url_for('options.database_query') }}" method=post class=query>
+      <dl> Query database - or <a href="{{ url_for('show_entries') }}">list all</a>
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Author:
+        <dd><input type=text size=30 name=author>
+        <dd><input type=submit value=search>
+      </dl>
+    </form>
+    {% if session.get("user_id") %}
+    <form action="{{ url_for('options.add_entry') }}" method=post class=add-entry>
+      <dl> Add new entry:
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Author:
+        <dd><input type=text size=30 name=author>
+        <dt>Genre:
+        <dd><input type=text size=30 name=genre>
+        <dt>CorpusID:
+        <dd><input type=text size=30 name=corpusID>
+        <dt>fileID:
+        <dd><input type=text size=30 name=fileID>
+        <dt>url:
+        <dd><input type=text size=30 name=url>
+        <dd><input type=submit value=save>
+      </dl>
+    </form>
+  {% endif %}
+{% endblock %}

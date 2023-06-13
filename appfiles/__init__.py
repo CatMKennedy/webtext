@@ -7,8 +7,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE="webtext.db"
-        #DATABASE=os.path.join(app.instance_path, 'appfiles.sqlite'),
+        #DATABASE="webtext.db"
+        DATABASE=os.path.join(app.instance_path, 'appfiles.sqlite'),
     )
 
     if test_config is None:

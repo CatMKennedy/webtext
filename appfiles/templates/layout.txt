@@ -8,10 +8,10 @@ filename='style.css') }}">
   <div class="metanav">
     <a href="{{ url_for('options.start_page') }}">Home</a> |
     <a href="{{ url_for('options.show_entries') }}">List database</a> |
-    <a href="{{ url_for('options.database_query') }}">Query database</a> |
+    <a href="{{ url_for('options.start_page') }}">Query database</a> |
     <a href="{{ url_for('options.analyse_text') }}">Analyse text</a> |
     <a href="{{ url_for('options.search_page') }}">Site search</a> | {% if not
-    session["user_id"] %}
+    session.logged_in %}
     <a href="{{ url_for('auth.login') }}">Login</a>
     <a href="{{ url_for('auth.register') }}">Register</a>
     {% else %}

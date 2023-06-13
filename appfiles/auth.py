@@ -27,16 +27,19 @@ def register():
             error = 'Password is required.'
 
         if error is None:
-            try:
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            else:
-                return redirect(url_for("auth.login"))
+            #with current_app.open_resource('schema.sql') as f:     
+            #    db.cursor().executescript(f.read().decode('utf8')) 
+                try:
+                    db.execute(
+                        "INSERT INTO user (username, password) VALUES (?, ?)",
+                        (username, generate_password_hash(password)),
+                    )
+                    db.commit()
+                except db.IntegrityError:
+                    error = f"User {username} is already registered."
+                else:
+                    flash('Successfully registered')
+                    return redirect(url_for("auth.login"))
 
         flash(error)
 
@@ -63,7 +66,8 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            flash("Successfully logged in")
+            return redirect(url_for('options.start_page'))
 
         flash(error)
 
@@ -72,7 +76,8 @@ def login():
 
 @bp.route('/logout')
 def logout():
-    session.pop('logged_in', None)
+    session.clear()
     flash('You are logged out')
-    return render_template('auth/login.html')
+    return redirect(url_for('options.start_page'))
+    #return render_template('auth/login.html')
     #return redirect(url_for('show_entries'))

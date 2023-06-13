@@ -1,11 +1,13 @@
 {% extends "layout.html" %} {% block body %}
+
 <form
   action="{{ url_for('options.database_query') }}"
   method="post"
   class="query"
 >
   <dl>
-    Query database:
+    Query database - or
+    <a href="{{ url_for('options.show_entries') }}">list all</a>
     <dt>Title:</dt>
     <dd><input type="text" size="30" name="title" /></dd>
     <dt>Author:</dt>
@@ -13,7 +15,6 @@
     <dd><input type="submit" value="search" /></dd>
   </dl>
 </form>
-{% if session.get("user_id") %}
 <form
   action="{{ url_for('options.add_entry') }}"
   method="post"
@@ -36,4 +37,5 @@
     <dd><input type="submit" value="save" /></dd>
   </dl>
 </form>
-{% endif %} {% endblock %}
+
+{% endblock %}

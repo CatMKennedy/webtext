@@ -5,6 +5,8 @@ from nltk.corpus import wordnet as wn
 from flask import (
     Blueprint, flash, session, g, redirect, render_template, request, url_for
 )
+from flask_login import current_user
+
 
 from werkzeug.exceptions import abort
 
@@ -13,7 +15,7 @@ from appfiles.db import get_db
 
 
 bp = Blueprint('options', __name__)
-
+#login_manager = loginManager()
 
 # Utility functios - used by views
 
@@ -31,9 +33,10 @@ def addWordCount(entries, userWord):
 			
 #Just a temporary way to access database - needs improving
 def queryDB(titleStr, authorStr):	
-    if not session.get('logged_in'):
+    if not session.get('user_id'):
         abort(401)
-    cur = g.db.execute('select * from entries where title = ? or author = ?',[titleStr, authorStr])    #request.form['author']])
+    db = get_db()
+    cur = db.execute('select * from entries where title = ? or author = ?',[titleStr, authorStr])    #request.form['author']])
     entries = [dict(title=row[1], author=row[2], genre=row[3], corpusID=row[4], fileID=row[5], url=row[6]) for row in cur.fetchall()] 
     return entries
 
@@ -41,13 +44,14 @@ def queryDB(titleStr, authorStr):
 
 @bp.route('/', methods=['GET', 'POST'])
 def start_page():
-    #return render_template('options.html')
-   
-    if session.get('logged_in'):
-        return render_template('options/options.html')
-    else:
+    if not session.get("user_id"):
+        flash("not logged in")
         return render_template('layout.html')
-
+    else:
+        flash("logged in")
+        return render_template('layout.html')
+   
+   
 
 @bp.route('/list_all')
 def show_entries():
@@ -58,16 +62,28 @@ def show_entries():
     return render_template('options/show_entries.html', entries=entries)
 
 
-@bp.route('/database_query', methods=['POST'])
-def database_query():    
-    entries = queryDB(request.form['title'], request.form['author'])
-    flash('Query results')
-    return render_template('options/show_entries.html', entries=entries)
+@bp.route('/database_query', methods=['GET', 'POST'])
+def database_query(): 
+    if request.method == 'POST':
+        title = request.form['title']
+        author = request.form['author']
+        entries = queryDB(title, author)
+        return render_template('options/show_entries.html', entries=entries)
+    
+    return render_template('options/options.html')
+   
+   # if request.method == 'POST':
+   #     entries = queryDB(request.form['title'], request.form['author'])
+   #     flash('Query results')
+    #    return render_template('options/show_entries.html', entries=entries)
+    #else:
+    #    flash("No query results")
+   #     return redirect(url_for('options.show_entries'))
     
 
 @bp.route('/add', methods=['POST'])
 def add_entry():
-    if not session.get('logged_in'):
+    if not session.get('user_id'):
         abort(401)
     g.db.execute('insert into entries (title, author, genre, corpusID, fileID, url) values (?, ?, ?, ?, ?, ?)',
                  [request.form['title'], request.form['author'], request.form['genre'], 
