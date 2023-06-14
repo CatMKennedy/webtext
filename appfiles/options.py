@@ -1,6 +1,8 @@
 import nltk, re, pprint
 from nltk.corpus import gutenberg
 from nltk.corpus import wordnet as wn
+from nltk.text import Text
+nltk.download("gutenberg")
 
 from flask import (
     Blueprint, flash, session, g, redirect, render_template, request, url_for
@@ -25,8 +27,8 @@ def addWordCount(entries, userWord):
     for entry in entries:
         if entry["corpusID"] == "Gutenberg":
             fileID = entry["fileID"]
-            textWords = nltk.Text(nltk.corpus.gutenberg.words(fileID))
-            resultString = "occurrences [\'" + userWord + "\'] = " + str(textWords.count(userWord))
+            textWords = Text(nltk.corpus.gutenberg.words(fileID))
+            resultString = f'occurrences of \"{userWord}\" = {str(textWords.count(userWord))}'
             entry["wordcount"] = resultString
         else:
             entry["wordcount"] = 0
@@ -64,22 +66,15 @@ def show_entries():
 
 @bp.route('/database_query', methods=['GET', 'POST'])
 def database_query(): 
-    if request.method == 'POST':
+    if request.method == 'POST':     # on form submission
         title = request.form['title']
         author = request.form['author']
         entries = queryDB(title, author)
         return render_template('options/show_entries.html', entries=entries)
     
-    return render_template('options/options.html')
+    return render_template('options/database_query_form.html')
    
-   # if request.method == 'POST':
-   #     entries = queryDB(request.form['title'], request.form['author'])
-   #     flash('Query results')
-    #    return render_template('options/show_entries.html', entries=entries)
-    #else:
-    #    flash("No query results")
-   #     return redirect(url_for('options.show_entries'))
-    
+  
 
 @bp.route('/add', methods=['POST'])
 def add_entry():

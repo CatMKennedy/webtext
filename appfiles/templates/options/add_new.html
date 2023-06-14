@@ -1,19 +1,4 @@
-{% extends "layout.html" %} {% block body %}
-<form
-  action="{{ url_for('options.database_query') }}"
-  method="post"
-  class="query"
->
-  <dl>
-    Query database:
-    <dt>Title:</dt>
-    <dd><input type="text" size="30" name="title" /></dd>
-    <dt>Author:</dt>
-    <dd><input type="text" size="30" name="author" /></dd>
-    <dd><input type="submit" value="search" /></dd>
-  </dl>
-</form>
-{% if session.get("user_id") %}
+{% extends "layout.html" %} {% block body %} {% if session.get("user_id") %}
 <form
   action="{{ url_for('options.add_entry') }}"
   method="post"
