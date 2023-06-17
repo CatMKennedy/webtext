@@ -7,10 +7,10 @@ filename='style.css') }}">
   <p>Simple analysis of classic texts</p>
   <div class="metanav">
     <a href="{{ url_for('options.start_page') }}">Home</a> |
-    <a href="{{ url_for('options.show_entries') }}">List database</a> |
+    <a href="{{ url_for('options.show_entries') }}">List all</a> |
     <a href="{{ url_for('options.database_query') }}">Query database</a> |
-    <a href="{{ url_for('options.analyse_text') }}">Analyse text</a> |
-    <a href="{{ url_for('options.search_page') }}">Site search</a> | {% if not
+    <a href="{{ url_for('options.add_entry') }}">Add new</a>|
+    <a href="{{ url_for('options.analyse_text') }}">Analyse text</a> | {% if not
     session["user_id"] %}
     <a href="{{ url_for('auth.login') }}">Login</a>
     <a href="{{ url_for('auth.register') }}">Register</a>

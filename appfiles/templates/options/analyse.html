@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block body %} {% if session["user_id"] %}
+{% extends "layout.html" %} {% block body %}
 
 <form action="{{ url_for('options.count_words') }}" method="post" class="count">
   <dl>
@@ -14,6 +14,4 @@
     <dd><input type="submit" value="submit" /></dd>
   </dl>
 </form>
-{% else %}
-<h2>Analyse text - not logged in</h2>
-{% endif %} {% endblock %}
+{% endblock %}

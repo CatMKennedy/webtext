@@ -1,9 +1,5 @@
-{% extends "layout.html" %}
-{% block body %}
-  {% if session.logged_in %}
-    <h2>This should be the search results page</h2>
-  {% else %}
-    <h2>Site search - not logged in</h2>
-  {% endif %}
-{% endblock %}
-
+{% extends "layout.html" %} {% block body %} {% if session.get("user_id") %}
+<h2>This should be the search results page</h2>
+{% else %}
+<h2>Site search - not logged in</h2>
+{% endif %} {% endblock %}

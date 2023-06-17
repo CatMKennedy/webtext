@@ -27,8 +27,6 @@ def register():
             error = 'Password is required.'
 
         if error is None:
-            #with current_app.open_resource('schema.sql') as f:     
-            #    db.cursor().executescript(f.read().decode('utf8')) 
                 try:
                     db.execute(
                         "INSERT INTO user (username, password) VALUES (?, ?)",
